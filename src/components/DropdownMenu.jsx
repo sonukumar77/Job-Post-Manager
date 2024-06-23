@@ -3,8 +3,8 @@ import Trash from "./icons/Trash"
 
 const DropdownMenu = ({ handleDeletePost, handleDuplicatePost }) => {
     return (
-        <div className="mr-4 w-1/12">
-            <ul className="p-2 bg-gray-400 inline-block">
+        <div className="mr-4">
+            <ul className="p-2 bg-gray-400">
                 <li className="flex cursor-pointer p-2" onClick={handleDeletePost}>
                     <Trash
                         svgProps={{ width: "28px", height: "28px" }}
