@@ -1,5 +1,6 @@
 export const MIN_EXPERIENEC = 5;
 export const MAX_EXPERIENCE = 15;
+export const LS_POST_MANAGER_KEY = "postManager";
 export const JOB_TYPE = ["Full Time", "Part Time", "Contract", "Internship"];
 export const JOB_LABELS = ["Is Remote", "5 Day Week"];
 export const initialPost = {
