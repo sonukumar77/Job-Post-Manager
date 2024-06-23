@@ -1,6 +1,6 @@
 # Job Post Manager
 
-Welcome to the Job Post Manager App! This React application allows users to designed to streamline the creation, management, and previewing of job postings.
+Welcome to the Job Post Manager App! This React application allows users to creation, management, and previewing of job postings.
 
 ## Table of Contents
 
