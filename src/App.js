@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Form from "./components/Form";
 import Preview from "./components/Preview";
@@ -8,13 +8,19 @@ import DropdownMenu from "./components/DropdownMenu";
 import Header from "./components/reusable/Header";
 import Footer from "./components/reusable/Footer";
 import { initialPost } from "./components/constants";
+import { getDataFromLS, setDataInLS } from "./components/utils";
 
 function App() {
-  const [posts, setPosts] = useState([]);
+  const [lsPostData, setLsPostData] = useState(() => getDataFromLS());
   const [newPost, setNewPost] = useState(initialPost);
   const [editId, setEditId] = useState(null);
   const [activeTab, setActiveTab] = useState(null);
   const [isVisibleDropdown, setIsVisibleDropdownDropdown] = useState(false);
+
+  useEffect(() => {
+    // Update local storage whenever lsPostData changes
+    setDataInLS(lsPostData);
+  }, [lsPostData]);
 
   const handleInput = (e, name) => {
     const { value, type, checked } = e.target;
@@ -34,16 +40,16 @@ function App() {
 
   const handleSave = () => {
     if (!!editId) {
-      const myPostData = posts;
-      myPostData.map((post, i) => {
-        if (post.id === editId) {
-          return myPostData.splice(i, 1, newPost);
-        }
-        return post;
-      });
+      const updatedPosts = lsPostData.map((post) =>
+        post.id === editId ? newPost : post
+      );
+      setLsPostData(updatedPosts);
+
       setEditId(null);
     } else {
-      setPosts((prev) => [...prev, { ...newPost, id: uuidv4() }]);
+      const postArr = [...lsPostData, { ...newPost, id: uuidv4() }];
+      setLsPostData(postArr);
+      setDataInLS(postArr);
     }
     setNewPost(initialPost);
     setActiveTab(null);
@@ -52,7 +58,8 @@ function App() {
   const handleTab = (postId, activeTabIndex) => {
     setActiveTab(activeTabIndex);
     setEditId(postId);
-    const filterPost = posts.find((post) => post.id === postId);
+    const filterPost = lsPostData.find((post) => post.id === postId);
+
     setNewPost(filterPost);
     setIsVisibleDropdownDropdown(false);
   };
@@ -65,8 +72,8 @@ function App() {
   const handleDeletePost = () => {
     const isDelete = window.confirm("Are you sure want to delete?");
     if (isDelete) {
-      const filterPosts = posts.filter((post) => post.id !== editId);
-      setPosts(filterPosts);
+      const filterPosts = lsPostData.filter((post) => post.id !== editId);
+      setLsPostData(filterPosts);
     }
     setIsVisibleDropdownDropdown(false);
     setEditId(null);
@@ -79,7 +86,8 @@ function App() {
     );
     if (isDuplicate) {
       const editPost = { ...newPost, id: uuidv4() };
-      setPosts((prev) => [...prev, editPost]);
+      const updatedPosts = [...lsPostData, editPost];
+      setLsPostData(updatedPosts);
     }
     setEditId(null);
     setIsVisibleDropdownDropdown(false);
@@ -89,10 +97,10 @@ function App() {
   return (
     <main>
       <Header />
-      <div className="flex w-full mt-2 p-8">
+      <div className="flex flex-col w-full lg:flex-row mt-2 p-8">
         <SideBar
           activeTab={activeTab}
-          posts={posts}
+          posts={lsPostData}
           handleTab={handleTab}
           handleAddJob={handleAddJob}
         />
