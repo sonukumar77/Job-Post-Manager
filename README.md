@@ -13,7 +13,7 @@ Welcome to the Job Post Manager App! This React application allows users to desi
 
 ## Features
 
-- Explore popular Job Post Manager App
+- Explore Job Post Manager App
 - View Job Post creation, management, and previewing
 - Delete,Duplicate Job Posts etc.
 
