@@ -43,7 +43,7 @@ Welcome to the Job Post Manager App! This React application allows users to crea
 
 2. Open your browser and visit http://localhost:3000.
 
-3. Explore the Movie Explorer App!
+3. Explore the Job Post Manager App!
 
 ## Hosted Link
 
